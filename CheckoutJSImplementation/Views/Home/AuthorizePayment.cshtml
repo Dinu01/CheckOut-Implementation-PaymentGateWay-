@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "AuthorizePayment";
+    var cardId = Convert.ToString(ViewBag.CardId);
+}
+
+<h2>AuthorizePayment</h2>
+<html>
+<head>
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {           
+            var datares = JSON.stringify({
+                "autoCapTime": "24",
+                "autoCapture": "Y",
+                "email": "sarah.mitchell@checkout.com",
+                "value": "2000",
+                "currency": "USD",
+                "trackId": "TRK12345",
+                "cardToken": "@cardId"
+            });
+            var authurl = "https://sandbox.checkout.com/api2/v2/charges/token"
+            $.ajax
+                ({
+                    type: "POST",
+                    url: authurl,
+                    dataType: 'json',
+                    async: false,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'sk_test_b2ce2577-0c3e-44f3-91e9-f14ea499cfce');
+                        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    },
+                    data: datares,
+                    success: function (data) {
+                        // alert('Thanks for your comment!');
+                        var chargeId = data.id;
+                        voidCharge(chargeId);
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+        });
+
+        function voidCharge(chargeId) {
+
+            var voidUrl = "https://sandbox.checkout.com/api2/v2/charges/" + chargeId + "/void";
+            var voidData = JSON.stringify({
+                "trackId": "TRK12345",
+                "description": "The T-Shirt Store",
+                "products":[
+                    {
+                        "description": "T-Shirt ladies medium",
+                        "image": null,
+                        "name": "T-Shirt ladies",
+                        "price": 2000,
+                        "quantity": 1,
+                        "shippingCost": 0,
+                        "sku": "tee123",
+                        "trackingUrl": "https://www.example.com/"
+                    }
+                ],
+                "udf1": "null",
+                "udf2": "null",
+                "udf3": "null",
+                "udf4": "null",
+                "udf5": "null"
+            });
+            SendRequest(voidUrl, voidData,kj)
+            $.ajax
+                ({
+                    type: "POST",
+                    url: voidUrl,
+                    dataType: 'json',
+                    async: false,
+                    beforeSend: function (x) {
+                        x.setRequestHeader('Authorization', 'sk_test_b2ce2577-0c3e-44f3-91e9-f14ea499cfce');
+                        x.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    },
+                    data: voidData,
+                    success: function (data) {
+                        kj();
+                         alert('Thanks for your comment!');                      
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+
+        }
+
+        function SendRequest(url, sendData,suc) {
+            $.ajax
+                ({
+                    type: "POST",
+                    url: url,
+                    dataType: 'json',
+                    async: false,
+                    beforeSend: function (x) {
+                        x.setRequestHeader('Authorization', 'sk_test_b2ce2577-0c3e-44f3-91e9-f14ea499cfce');
+                        x.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+                    },
+                    data: sendData,
+                    success: function (data) {
+                        alert('Thanks for your comment!');
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+        }
+    </script>*@
+</head>
+<body>
+</body>
+</html>
+

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content='width=device-width, initialscale=1.0, maximum-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>configure</title>
+</head>
+
+<body>
+
+    <!-- add frames script -->
+    <script src="https://cdn.checkout.com/js/frames.js"></script>
+    <form id="payment-form" method="POST" action="server.php">
+        <div class="frames-container">
+            <!-- form will be added here -->
+        </div>
+        <!-- add submit button -->
+        <button id="pay-now-button" type="submit" disabled>Pay now</button>
+    </form>
+    <script>
+        var paymentForm = document.getElementById('payment-form');
+        var payNowButton = document.getElementById("pay-now-button");
+
+        // custom localisation
+        var localisation = {
+            cardNumberPlaceholder: "card number placeholder",
+            expiryMonthPlaceholder: "month placeholder",
+            expiryYearPlaceholder: "year placeholder",
+            cvvPlaceholder: "cvv placeholder",
+            cardNumberErrorMessage: "card number error message"
+        }
+
+        // custom style
+        var style = {
+            '.embedded .card-form .input-group': {
+                borderRadius: '5px'
+            },
+            /* focus */
+            '.embedded .card-form .input-group.focus:not(.error)': {
+                border: '1px solid green'
+            },
+            /* icons */
+            '.embedded .card-form .input-group .icon': {
+                color: 'slategray'
+            },
+            /* hint icon (CVV) */
+            '.embedded .card-form .input-group .hint-icon': {
+                color: 'slategray'
+            },
+            '.embedded .card-form .input-group .hint-icon:hover': {
+                color: 'darkslategray'
+            },
+            /* error */
+            '.embedded .card-form .input-group.error': {
+                border: '1px solid red'
+            },
+            '.embedded .card-form .input-group.error .hint.error-message': { /* message container */
+                background: 'lightgray', /* make sure to match the pointer color (below) */
+                color: 'red'
+            },
+            '.embedded .card-form .input-group.error .hint.error-message .arrow': { /* message container pointer */
+                borderBottomColor: 'lightgray' /* matches message container background */
+            },
+            '.embedded .card-form .input-group.error .hint-icon:hover': { /* hint icon */
+                color: 'red'
+            },
+
+            '.embedded .card-form .input-group:not(.error) input': {
+                color: 'dimgray'
+            },
+            '.embedded .card-form .input-group.focus input': {
+                color: 'black'
+            },
+            '.embedded .card-form .input-group.error input': {
+                color: 'red'
+            },
+            '.embedded .card-form .input-group input::-webkit-input-placeholder': { /* Chrome/Opera/Safari */
+                color: 'lightgray'
+            },
+            '.embedded .card-form .input-group input::-moz-placeholder': { /* Firefox 19+ */
+                color: 'lightgray'
+            },
+            '.embedded .card-form .input-group input:-ms-input-placeholder': { /* IE 10+ */
+                color: 'lightgray'
+            },
+            '.embedded .card-form .input-group input:-moz-placeholder': { /* Firefox 18- */
+                color: 'lightgray'
+            },
+
+            '.embedded .card-form .split-view .left': {
+                paddingRight: '3px'
+            },
+            '.embedded .card-form .split-view .right': {
+                paddingLeft: '3px'
+            }
+        }
+
+        Frames.init({
+            publicKey: 'pk_test_4296fd52-efba-4a38-b6ce-cf0d93639d8a',
+            containerSelector: '.frames-container',
+            // add your custom style
+            style: style,
+            // add custom text
+            localisation: localisation,
+            cardValidationChanged: function () {
+                // if all fields contain valid information, the Pay now
+                // button will be enabled and the form can be submitted
+                payNowButton.disabled = !Frames.isCardValid();
+            },
+            cardSubmitted: function () {
+                payNowButton.disabled = true;
+                // display loader
+            }
+        });
+        paymentForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            Frames.submitCard()
+                .then(function (data) {
+                    Frames.addCardToken(paymentForm, data.cardToken);
+                    paymentForm.submit();
+                })
+                .catch(function (err) {
+                    // catch the error
+                });
+        });
+    </script>
+</body>
+
+</html>

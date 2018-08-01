@@ -1,0 +1,15 @@
+1:-First we need the Publish key and secreat key.So here i use my testing Publish key and secreat key in view and controller.
+
+2:-In this Checkout provide two types of Gateway.First PCI Complement and Secound Non-PCI Complement.So here we implement the Non-PCI Complement.
+
+3:-Here CheckOut Provide the test card details.So we use any of the test card details from here
+
+https://docs.checkout.com/docs/testing#section-test-card-numbers
+
+4:-Here in this we takethe 2-d and 3-d charge mode.By Default it is 2-d.In the  AuthorizePayment method we use the charge mode =2 which is 3-d.If charge mode=1 then it is 2-d.
+
+5:-If we take the charge mode =2 then we also provide the success and failure URL.After the complementation of success and failure then it goes to the success and failure URL.
+
+6:-So after the charge mode =2 then it redirect to the 3D-Secure Authentication in testing phase.But when we in live it redirect to the Bank side.
+
+7:-In testing phase 3D-Secure Authentication window required the password .And it is already meantition in the hint and it is  Checkout1!
